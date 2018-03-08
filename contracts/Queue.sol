@@ -13,6 +13,8 @@ contract Queue {
 	// YOUR CODE HERE
 	address[] _queue;
 	uint _numBuyers;
+	uint _start;
+	uint _limit;
 
 
 	/* Add events */
