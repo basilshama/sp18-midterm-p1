@@ -12,9 +12,9 @@ contract Queue {
 	uint8 size = 5;
 	// YOUR CODE HERE
 	address[] _queue;
-	uint _numBuyers;
-	uint _start;
-	uint _limit;
+	uint8 _numBuyers;
+	uint256 _start;
+	uint256 _limit;
 
 
 	/* Add events */
@@ -22,8 +22,9 @@ contract Queue {
 
 	/* Add constructor */
 	// YOUR CODE HERE
-	function Queue() public {
+	function Queue(uint256 limit) public {
 		_queue = new address[](size);
+		_limit = limit;
 		_numBuyers = 0;
 	}
 
@@ -43,21 +44,29 @@ contract Queue {
 		// YOUR CODE HERE
 		return _queue[0];
 	}
+
+	/* Returns the address of the person in the front of the queue */
+	function getSecond() constant returns(address) {
+		// YOUR CODE HERE
+		return _queue[1];
+	}
 	
 	/* Allows `msg.sender` to check their position in the queue */
 	function checkPlace() constant returns(uint8) {
-		for (uint i = 0; i < _numBuyers; i++) {
-			if (msg.sender == _queue[i]) {
-				return i + 1;
-			}
+		uint8 index = 0;
+		while (_queue[index] != msg.sender) {
+			index ++;
 		}
+		return index + 1;
 	}
 	
 	/* Allows anyone to expel the first person in line if their time
 	 * limit is up
 	 */
 	function checkTime() {
-		if
+		if (now > (_start + _limit)) {
+			dequeue();
+		}
 	}
 	
 	/* Removes the first person in line; either when their time is up or when
@@ -65,17 +74,17 @@ contract Queue {
 	 */
 	function dequeue() {
 		// YOUR CODE HERE
+		if (now > _limit || msg.sender.balance > 0) {
+			for (uint i = 0; i < _numBuyers; i++) {
+				_queue[i] = _queue[i+1];
+			}
+		}
 
 	}
 
 	/* Places `addr` in the first empty position in the queue */
 	function enqueue(address addr) {
 		// YOUR CODE HERE
-		for (uint i = 0; i < _queue; i++) {
-			if (_queue[i] == 0) {
-				_queue[i] == addr;
-				return;
-			}
-		}
+		_queue[_numBuyers] = addr;
 	}
 }
