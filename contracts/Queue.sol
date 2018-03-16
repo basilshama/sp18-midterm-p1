@@ -25,6 +25,7 @@ contract Queue {
 	function Queue(uint256 limit) public {
 		_queue = new address[](size);
 		_limit = limit;
+		_start = now;
 		_numBuyers = 0;
 	}
 
@@ -74,7 +75,7 @@ contract Queue {
 	 */
 	function dequeue() {
 		// YOUR CODE HERE
-		if (now > _limit || msg.sender.balance > 0) {
+		if (now > _start +_limit || msg.sender.balance > 0) {
 			for (uint i = 0; i < _numBuyers; i++) {
 				_queue[i] = _queue[i+1];
 			}

@@ -56,6 +56,16 @@ contract Crowdsale {
         }
     }
 
+    modifier forwardFunds() {
+        if (now < endTime) {
+            throw;
+        }
+        for (uint i = 0; i < token.; i++) {
+            token.transfer(token.balances);
+        }
+
+    }
+
     modifier ownerOnly() {
         if (msg.sender != owner) {
             throw;
